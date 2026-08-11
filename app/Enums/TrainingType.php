@@ -2,13 +2,15 @@
 
 namespace App\Enums;
 
-enum TrainingType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum TrainingType: string implements HasLabel
 {
     case TECHNICAL = 'technical';
     case MANAGERIAL = 'managerial';
     case FUNCTIONAL = 'functional';
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::TECHNICAL => 'Pelatihan Teknis',

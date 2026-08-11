@@ -25,10 +25,6 @@ class TrainingSeeder extends Seeder
                 'filled_quota' => 3,
                 'status' => TrainingStatus::OPEN,
                 'is_active' => true,
-                'metadata' => [
-                    'curriculum_version' => '2026.1',
-                    'lead_instructor' => 'Dr. H. Sukamto, Ak., M.Si., CFrA.',
-                ],
             ],
             [
                 'name' => 'Pelatihan Penilaian Maturitas Penyelenggaraan SPIP Terintegrasi',
@@ -43,10 +39,6 @@ class TrainingSeeder extends Seeder
                 'filled_quota' => 40,
                 'status' => TrainingStatus::FULL,
                 'is_active' => true,
-                'metadata' => [
-                    'curriculum_version' => '2026.2',
-                    'lead_instructor' => 'Agung Wibowo, S.E., M.Acc., Ak.',
-                ],
             ],
             [
                 'name' => 'Pelatihan Manajemen Risiko Sektor Publik & Good Governance (GRC)',
@@ -61,10 +53,6 @@ class TrainingSeeder extends Seeder
                 'filled_quota' => 12,
                 'status' => TrainingStatus::OPEN,
                 'is_active' => true,
-                'metadata' => [
-                    'curriculum_version' => '2025.3',
-                    'lead_instructor' => 'Dra. Endang Purwanti, M.M., CA.',
-                ],
             ],
             [
                 'name' => 'Pelatihan Teknik Audit Berbantuan Komputer (TABK) dengan Data Analytics',
@@ -79,10 +67,6 @@ class TrainingSeeder extends Seeder
                 'filled_quota' => 25,
                 'status' => TrainingStatus::COMPLETED,
                 'is_active' => true,
-                'metadata' => [
-                    'curriculum_version' => '2026.1',
-                    'software' => 'ACL Analytics v16 / Python Pandas',
-                ],
             ],
             [
                 'name' => 'Pelatihan Pengawasan Pengadaan Barang & Jasa (PBJ) Pemerintah',
@@ -97,9 +81,6 @@ class TrainingSeeder extends Seeder
                 'filled_quota' => 0,
                 'status' => TrainingStatus::DRAFT,
                 'is_active' => true,
-                'metadata' => [
-                    'curriculum_version' => '2026.2',
-                ],
             ],
         ];
 

@@ -63,6 +63,7 @@ erDiagram
     facility_bookings ||--o{ invoices : "generates"
     invoices ||--o{ payments : "paid via"
     facilities ||--o{ facility_bookings : "booked as"
+    facilities ||--o{ facility_photos : "has photos"
 
     employees {
         integer id PK
@@ -160,6 +161,14 @@ erDiagram
         boolean is_active
     }
 
+    facility_photos {
+        integer id PK
+        integer facility_id FK
+        string description
+        string path
+        integer sort
+    }
+
     facility_bookings {
         integer id PK
         integer facility_id FK
@@ -199,7 +208,7 @@ Memodifikasi migration bawaan Laravel — mengganti `users` → `employees` dan 
 | `phone` | `string`, nullable | Phone number |
 | `is_active` | `boolean`, default `true` | Account active status |
 | `avatar_url` | `string`, nullable | Profile photo |
-| `metadata` | `jsonb`, nullable | Flexible additional data |
+
 | `timestamps` | — | (bawaan) |
 
 Tabel `password_reset_tokens` dan `sessions` juga diperbarui FK-nya ke `employees`.
@@ -226,7 +235,7 @@ Entitas customer **berdiri sendiri** — pengguna layanan publik, tanpa FK ke `e
 | `origin_institution` | `string`, nullable | Origin institution |
 | `client_type` | `string`, default `'individual'` | `individual`, `institutional` |
 | `is_active` | `boolean`, default `true` | — |
-| `metadata` | `jsonb`, nullable | Additional data |
+
 | `timestamps` | — | `created_at`, `updated_at` |
 | `softDeletes` | — | `deleted_at` |
 
@@ -253,7 +262,7 @@ Satu tabel pelatihan lengkap dengan jadwal dan kuota:
 | `filled_quota` | `integer`, default `0` | Filled counter |
 | `status` | `string`, default `'draft'` | `draft`, `open`, `full`, `ongoing`, `completed`, `cancelled` |
 | `is_active` | `boolean`, default `true` | — |
-| `metadata` | `jsonb`, nullable | — |
+
 | `timestamps` | — | — |
 | `softDeletes` | — | — |
 
@@ -278,7 +287,7 @@ Pendaftaran pelatihan — menghubungkan **customer** ke **training**, diverifika
 | `operator_notes` | `text`, nullable | Notes from operator |
 | `confirmed_at` | `timestamp`, nullable | Confirmation time |
 | `confirmed_via` | `string`, nullable | `system`, `whatsapp`, `email`, `phone` |
-| `metadata` | `jsonb`, nullable | — |
+
 | `timestamps` | — | — |
 | `softDeletes` | — | — |
 
@@ -321,7 +330,7 @@ Sertifikat — **belongs to `registrations`**:
 | `issued_date` | `date` | — |
 | `status` | `string`, default `'draft'` | `draft`, `issued`, `revoked` |
 | `file_path` | `string`, nullable | PDF file path |
-| `metadata` | `jsonb`, nullable | Signature, template, etc. |
+
 | `timestamps` | — | — |
 
 **Business rule**: Sertifikat hanya dibuat jika `registrations.graduation_status = 'passed'`.
@@ -342,11 +351,27 @@ Master data fasilitas:
 | `description` | `text`, nullable | — |
 | `capacity` | `integer`, nullable | For classrooms |
 | `price_per_day` | `decimal(15,2)`, default `0` | — |
-| `photo_path` | `string`, nullable | Facility photo |
 | `is_active` | `boolean`, default `true` | — |
-| `metadata` | `jsonb`, nullable | — |
+
 | `timestamps` | — | — |
 | `softDeletes` | — | — |
+
+---
+
+#### Migration 8: Facility Photos
+
+##### [NEW] `2026_08_07_000008_create_facility_photos_table.php`
+
+Foto fasilitas — multiple foto per fasilitas:
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | `id()`, PK | Auto-increment |
+| `facility_id` | `foreignId` → `facilities` | Cascade on delete |
+| `description` | `string`, nullable | Deskripsi foto |
+| `path` | `string` | File path foto |
+| `sort` | `integer`, default `0` | Urutan tampilan |
+| `timestamps` | — | — |
 
 ---
 
@@ -370,7 +395,7 @@ Pemesanan fasilitas — menghubungkan **customer** ke **facility**:
 | `arrival_confirmed` | `boolean`, default `false` | Per business rule in PRD |
 | `cancellation_fee` | `decimal(15,2)`, default `0` | If cancelled < 7 days = 5% |
 | `notes` | `text`, nullable | — |
-| `metadata` | `jsonb`, nullable | — |
+
 | `timestamps` | — | — |
 | `softDeletes` | — | — |
 
@@ -396,7 +421,7 @@ Invoice pembayaran — bisa dari registrasi pelatihan ATAU pemesanan fasilitas:
 | `paid_at` | `timestamp`, nullable | Settlement time |
 | `line_items` | `jsonb`, nullable | Itemized bill details |
 | `notes` | `text`, nullable | — |
-| `metadata` | `jsonb`, nullable | — |
+
 | `timestamps` | — | — |
 | `softDeletes` | — | — |
 
@@ -419,7 +444,7 @@ Catatan transaksi pembayaran:
 | `verified_by` | `foreignId` → `employees`, nullable | Verifying operator |
 | `paid_at` | `timestamp`, nullable | — |
 | `notes` | `text`, nullable | — |
-| `metadata` | `jsonb`, nullable | — |
+
 | `timestamps` | — | — |
 
 ---
@@ -435,11 +460,12 @@ Catatan transaksi pembayaran:
 | 5 | `2026_08_07_000005_create_attendances_table.php` | `attendances` | CREATE | → `registrations` |
 | 6 | `2026_08_07_000006_create_certificates_table.php` | `certificates` | CREATE | → `registrations` |
 | 7 | `2026_08_07_000007_create_facilities_table.php` | `facilities` | CREATE | — |
-| 8 | `2026_08_07_000008_create_facility_bookings_table.php` | `facility_bookings` | CREATE | → `facilities`, `customers` |
-| 9 | `2026_08_07_000009_create_invoices_table.php` | `invoices` | CREATE | → `registrations`, `facility_bookings` |
-| 10 | `2026_08_07_000010_create_payments_table.php` | `payments` | CREATE | → `invoices`, `employees` |
+| 8 | `2026_08_07_000008_create_facility_photos_table.php` | `facility_photos` | CREATE | → `facilities` |
+| 9 | `2026_08_07_000009_create_facility_bookings_table.php` | `facility_bookings` | CREATE | → `facilities`, `customers` |
+| 10 | `2026_08_07_000010_create_invoices_table.php` | `invoices` | CREATE | → `registrations`, `facility_bookings` |
+| 11 | `2026_08_07_000011_create_payments_table.php` | `payments` | CREATE | → `invoices`, `employees` |
 
-**Total: 10 migration files** — 1 MODIFY + 9 CREATE — menghasilkan **10 tabel** (`employees` menggantikan `users` + 9 tabel baru).
+**Total: 11 migration files** — 1 MODIFY + 10 CREATE — menghasilkan **11 tabel** (`employees` menggantikan `users` + 10 tabel baru).
 
 ---
 
