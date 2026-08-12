@@ -34,9 +34,7 @@ class EmployeeForm
                         \Filament\Forms\Components\TextInput::make('phone')
                             ->tel()
                             ->maxLength(255),
-                        \Filament\Forms\Components\FileUpload::make('avatar_url')
-                            ->avatar()
-                            ->directory('avatars'),
+
                         \Filament\Forms\Components\Toggle::make('is_active')
                             ->default(true)
                             ->required(),

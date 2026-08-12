@@ -207,8 +207,6 @@ Memodifikasi migration bawaan Laravel — mengganti `users` → `employees` dan 
 | `role` | `string`, default `'operator'` | `admin`, `operator`, `leader` |
 | `phone` | `string`, nullable | Phone number |
 | `is_active` | `boolean`, default `true` | Account active status |
-| `avatar_url` | `string`, nullable | Profile photo |
-
 | `timestamps` | — | (bawaan) |
 
 Tabel `password_reset_tokens` dan `sessions` juga diperbarui FK-nya ke `employees`.
