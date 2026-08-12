@@ -34,6 +34,11 @@ class CustomerResource extends Resource
         return CustomersTable::configure($table);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return \App\Filament\Resources\Customers\Schemas\CustomerInfolist::configure($schema);
+    }
+
     public static function getRelations(): array
     {
         return [

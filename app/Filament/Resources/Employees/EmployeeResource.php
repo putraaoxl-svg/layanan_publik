@@ -32,6 +32,11 @@ class EmployeeResource extends Resource
         return EmployeesTable::configure($table);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return \App\Filament\Resources\Employees\Schemas\EmployeeInfolist::configure($schema);
+    }
+
     public static function getRelations(): array
     {
         return [
