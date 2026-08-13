@@ -22,7 +22,20 @@ class TrainingResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static \UnitEnum|string|null $navigationGroup = 'Layanan Pelatihan';
+    public static function getModelLabel(): string
+    {
+        return __('Training');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Trainings');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Layanan Pelatihan');
+    }
 
     public static function form(Schema $schema): Schema
     {

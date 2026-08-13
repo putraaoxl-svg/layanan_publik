@@ -13,17 +13,22 @@ class EmployeeInfolist
     {
         return $schema
             ->components([
-                Section::make('Account Information')
+                Section::make(__('Account Information'))
                     ->schema([
-                        TextEntry::make('name'),
-                        TextEntry::make('email'),
+                        TextEntry::make('name')
+                            ->label(__('Name')),
+                        TextEntry::make('email')
+                            ->label(__('Email')),
                     ])->columns(2),
-                Section::make('Profile Information')
+                Section::make(__('Profile Information'))
                     ->schema([
                         TextEntry::make('role')
+                            ->label(__('Role'))
                             ->badge(),
-                        TextEntry::make('phone'),
+                        TextEntry::make('phone')
+                            ->label(__('Phone')),
                         IconEntry::make('is_active')
+                            ->label(__('Is Active'))
                             ->boolean(),
                     ])->columns(2),
             ]);

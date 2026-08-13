@@ -15,22 +15,31 @@ class FacilityInfolist
     {
         return $schema
             ->components([
-                Section::make('Facility Details')
+                Section::make(__('Facility Details'))
                     ->schema([
-                        TextEntry::make('name'),
+                        TextEntry::make('name')
+                            ->label(__('Name')),
                         TextEntry::make('type')
+                            ->label(__('Type'))
                             ->badge(),
-                        TextEntry::make('capacity'),
+                        TextEntry::make('capacity')
+                            ->label(__('Capacity')),
                         TextEntry::make('price_per_day')
+                            ->label(__('Price Per Day'))
                             ->money('IDR', locale: 'id'),
                         TextEntry::make('description')
+                            ->label(__('Description'))
                             ->columnSpanFull(),
                         IconEntry::make('is_active')
+                            ->label(__('Is Active'))
                             ->boolean(),
                         RepeatableEntry::make('photos')
+                            ->label(__('Photos'))
                             ->schema([
-                                ImageEntry::make('path')->label('Photo'),
-                                TextEntry::make('description'),
+                                ImageEntry::make('path')
+                                    ->label(__('Photo')),
+                                TextEntry::make('description')
+                                    ->label(__('Description')),
                             ])
                             ->columns(2)
                             ->columnSpanFull(),

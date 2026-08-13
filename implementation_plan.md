@@ -490,3 +490,31 @@ php artisan migrate
 - Pastikan unique constraint `[training_id, customer_id]` di `registrations` berjalan.
 - Pastikan unique constraint `[registration_id, date]` di `attendances` berjalan.
 - Pastikan unique constraint `[facility_id, start_date, end_date]` di `facility_bookings` berjalan.
+
+---
+
+## Catatan Tambahan: Filament Resource Localization
+
+Untuk memastikan menu navigasi, label model, dan teks antarmuka lainnya di panel admin Filament diterjemahkan secara dinamis (mengambil referensi dari berkas `lang/id.json`), disarankan menggunakan penulisan metode dibandingkan penggunaan properti statis. Penggunaan properti statis kadang tidak memanggil fungsi translasi `__()` secara tepat waktu pada saat _runtime_.
+
+Pola standar yang ditetapkan pada kelas `Resource` di direktori `app/Filament/Resources`:
+
+```php
+    public static function getModelLabel(): string
+    {
+        return __('Customer');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Customers');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Data Master'); // Atau __('Layanan Sewa'), dsb.
+    }
+```
+
+> [!TIP]
+> Pastikan string bahasa yang di-*return* dalam fungsi `__()` di atas (misal: `"Customer"`, `"Data Master"`) sudah didaftarkan pada berkas `lang/id.json` proyek Anda agar dapat dialihbahasakan dengan benar.

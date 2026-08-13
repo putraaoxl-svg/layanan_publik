@@ -13,20 +13,28 @@ class CustomerInfolist
     {
         return $schema
             ->components([
-                Section::make('Account Information')
+                Section::make(__('Account Information'))
                     ->schema([
-                        TextEntry::make('name'),
-                        TextEntry::make('email'),
+                        TextEntry::make('name')
+                            ->label(__('Name')),
+                        TextEntry::make('email')
+                            ->label(__('Email')),
                     ])->columns(2),
-                Section::make('Personal Information')
+                Section::make(__('Personal Information'))
                     ->schema([
-                        TextEntry::make('id_number'),
-                        TextEntry::make('phone'),
-                        TextEntry::make('position'),
-                        TextEntry::make('origin_institution'),
+                        TextEntry::make('id_number')
+                            ->label(__('ID Number')),
+                        TextEntry::make('phone')
+                            ->label(__('Phone')),
+                        TextEntry::make('position')
+                            ->label(__('Position')),
+                        TextEntry::make('origin_institution')
+                            ->label(__('Origin Institution')),
                         TextEntry::make('client_type')
+                            ->label(__('Client Type'))
                             ->badge(),
                         IconEntry::make('is_active')
+                            ->label(__('Is Active'))
                             ->boolean(),
                     ])->columns(2),
             ]);
