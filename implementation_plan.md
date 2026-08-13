@@ -248,11 +248,11 @@ Satu tabel pelatihan lengkap dengan jadwal dan kuota:
 | Column | Type | Description |
 |--------|------|-------------|
 | `id` | `id()`, PK | Auto-increment |
-| `name` | `string` | Training name |
+| `name` | `jsonb` | Training name (translatable) |
 | `type` | `string` | `technical`, `managerial`, `functional` |
-| `description` | `text`, nullable | Training description |
+| `description` | `jsonb`, nullable | Training description (translatable) |
 | `duration_days` | `integer` | Duration in days |
-| `requirements` | `text`, nullable | Prerequisites |
+| `requirements` | `jsonb`, nullable | Prerequisites (translatable) |
 | `start_date` | `date` | Training start date |
 | `end_date` | `date` | Training end date |
 | `location` | `string` | Training venue |
@@ -344,9 +344,9 @@ Master data fasilitas:
 | Column | Type | Description |
 |--------|------|-------------|
 | `id` | `id()`, PK | Auto-increment |
-| `name` | `string` | Facility name |
+| `name` | `jsonb` | Facility name (translatable) |
 | `type` | `string` | `classroom`, `module`, `catering`, `other` |
-| `description` | `text`, nullable | — |
+| `description` | `jsonb`, nullable | — (translatable) |
 | `capacity` | `integer`, nullable | For classrooms |
 | `price_per_day` | `decimal(15,2)`, default `0` | — |
 | `is_active` | `boolean`, default `true` | — |
@@ -366,7 +366,7 @@ Foto fasilitas — multiple foto per fasilitas:
 |--------|------|-------------|
 | `id` | `id()`, PK | Auto-increment |
 | `facility_id` | `foreignId` → `facilities` | Cascade on delete |
-| `description` | `string`, nullable | Deskripsi foto |
+| `description` | `jsonb`, nullable | Deskripsi foto (translatable) |
 | `path` | `string` | File path foto |
 | `sort` | `integer`, default `0` | Urutan tampilan |
 | `timestamps` | — | — |
