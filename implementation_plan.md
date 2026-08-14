@@ -100,6 +100,7 @@ erDiagram
         integer max_quota
         integer filled_quota
         string status
+        jsonb images
     }
 
     registrations {
@@ -260,6 +261,7 @@ Satu tabel pelatihan lengkap dengan jadwal dan kuota:
 | `filled_quota` | `integer`, default `0` | Filled counter |
 | `status` | `string`, default `'draft'` | `draft`, `open`, `full`, `ongoing`, `completed`, `cancelled` |
 | `is_active` | `boolean`, default `true` | — |
+| `images` | `jsonb`, nullable | Array of poster/image file paths |
 
 | `timestamps` | — | — |
 | `softDeletes` | — | — |

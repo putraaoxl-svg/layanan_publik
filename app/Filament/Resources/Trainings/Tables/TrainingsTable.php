@@ -14,6 +14,11 @@ class TrainingsTable
     {
         return $table
             ->columns([
+                \Filament\Tables\Columns\ImageColumn::make('images')
+                    ->label(__('Poster'))
+                    ->circular()
+                    ->stacked()
+                    ->limit(3),
                 \Filament\Tables\Columns\TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()

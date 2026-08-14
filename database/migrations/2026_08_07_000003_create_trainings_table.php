@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('filled_quota')->default(0);
             $table->string('status')->default('draft'); // draft, open, full, ongoing, completed, cancelled
             $table->boolean('is_active')->default(true);
+            $table->jsonb('images')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

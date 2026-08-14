@@ -73,8 +73,12 @@ class TrainingForm
                             ->label(__('Is Active'))
                             ->required()
                             ->default(true),
-                        \Filament\Forms\Components\KeyValue::make('metadata')
-                            ->label(__('Metadata'))
+                        \Filament\Forms\Components\FileUpload::make('images')
+                            ->label(__('Training Images'))
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->directory('trainings')
                             ->columnSpanFull(),
                     ])->columns(2),
             ]);
