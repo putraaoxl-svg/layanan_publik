@@ -7,6 +7,8 @@
         <title>{{ $title ?? 'Layanan Publik' }}</title>
         <!-- Tailwind CSS via CDN untuk kemudahan development tanpa Vite -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Alpine.js untuk interaktivitas (dropdown, toggle, dsb.) -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         @livewireStyles
     </head>
     <body class="bg-gray-50 text-gray-900 font-sans antialiased">
@@ -21,10 +23,27 @@
                     </div>
                     <div class="flex items-center space-x-4">
                         @auth('customer')
-                            <a href="#" class="text-gray-700 hover:text-blue-600">{{ auth('customer')->user()->name }}</a>
+                            <div class="relative" x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <span class="text-blue-600 font-semibold text-sm">{{ strtoupper(substr(auth('customer')->user()->name, 0, 1)) }}</span>
+                                    </div>
+                                    <span class="hidden sm:inline text-sm font-medium">{{ auth('customer')->user()->name }}</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" @click.away="open = false" x-transition
+                                     class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
+                                    <form method="POST" action="{{ route('customer.logout') }}">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
+                                            Keluar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         @else
-                            <a href="{{ route('customer.login') ?? '#' }}" class="text-gray-700 hover:text-blue-600">Login</a>
-                            <a href="{{ route('customer.register') ?? '#' }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Daftar</a>
+                            <a href="{{ route('customer.login') }}" class="text-gray-700 hover:text-blue-600 text-sm font-medium transition" wire:navigate>Masuk</a>
+                            <a href="{{ route('customer.register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm" wire:navigate>Daftar</a>
                         @endauth
                     </div>
                 </div>

@@ -160,6 +160,16 @@ class TrainingSeeder extends Seeder
         ];
 
         foreach ($trainings as $training) {
+            // Download gambar acak dari picsum (dengan parameter random agar gambar tidak sama/dicache)
+            $imageResponse = \Illuminate\Support\Facades\Http::get('https://picsum.photos/600/400?random=' . uniqid());
+            if ($imageResponse->successful()) {
+                $imageName = 'trainings/' . uniqid('training_') . '.jpg';
+                \Illuminate\Support\Facades\Storage::disk('public')->put($imageName, $imageResponse->body());
+                $training['images'] = [$imageName];
+            } else {
+                $training['images'] = [];
+            }
+
             Training::updateOrCreate(
                 ['name->id' => $training['name']['id']],
                 $training

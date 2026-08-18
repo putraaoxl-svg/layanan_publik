@@ -14,11 +14,11 @@ Kita akan membuat komponen-komponen Livewire independen yang akan dirender di ha
 ### 1. Modul Autentikasi Klien (Auth)
 - **`Livewire\Frontend\Auth\Login`**
   - Halaman login untuk klien (Customer).
-  - Validasi email dan password, kemudian redirect ke dashboard Filament (`/portal`) atau kembali ke halaman sebelumnya (misal sedang proses checkout).
+  - Validasi email dan password, kemudian redirect ke halaman Beranda Utama (`/`) atau kembali ke halaman sebelumnya (misal sedang proses checkout layanan).
 - **`Livewire\Frontend\Auth\Register`**
   - Halaman pendaftaran akun baru untuk klien.
-  - Input: Nama, Email, Password, NIK, Instansi, dan Tipe Klien.
-  - Setelah berhasil, akun akan login otomatis dan bisa melanjutkan proses pendaftaran layanan.
+  - Input menyesuaikan database: Nama (`name`), Email (`email`), Password (`password`), NIK/NIP/NRP (`id_number`), No. Telepon/WA (`phone`), Jabatan (`position`), Instansi Asal (`origin_institution`), dan Tipe Klien (`client_type`).
+  - Setelah registrasi berhasil, akun akan login otomatis dan diarahkan ke halaman Beranda atau melanjutkan proses yang tertunda.
 
 ### 2. Modul Pelatihan (Training)
 - **`Livewire\Frontend\Trainings\Index`**

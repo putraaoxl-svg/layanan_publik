@@ -147,28 +147,33 @@ class FacilitySeeder extends Seeder
 
             // Seed some dummy photos
             if ($facility->photos()->count() === 0) {
-                $facility->photos()->createMany([
-                    [
-                        'description' => [
-                            'id' => 'Tampak Depan',
-                            'en' => 'Front View',
-                            'ar' => 'منظر أمامي',
-                            'es' => 'Vista Frontal',
-                        ],
-                        'path' => 'facilities/dummy' . ($index + 1) . '_1.jpg',
-                        'sort' => 1,
-                    ],
-                    [
-                        'description' => [
-                            'id' => 'Tampak Dalam',
-                            'en' => 'Inside View',
-                            'ar' => 'منظر داخلي',
-                            'es' => 'Vista Interior',
-                        ],
-                        'path' => 'facilities/dummy' . ($index + 1) . '_2.jpg',
-                        'sort' => 2,
-                    ]
-                ]);
+                $photoCount = rand(4, 7);
+                $photosData = [];
+                
+                for ($i = 1; $i <= $photoCount; $i++) {
+                    // Tambahkan parameter acak agar mendapatkan gambar yang berbeda-beda
+                    $imageResponse = \Illuminate\Support\Facades\Http::get('https://picsum.photos/600/400?random=' . uniqid());
+                    
+                    if ($imageResponse->successful()) {
+                        $imageName = 'facilities/' . uniqid('facility_') . '.jpg';
+                        \Illuminate\Support\Facades\Storage::disk('public')->put($imageName, $imageResponse->body());
+                        
+                        $photosData[] = [
+                            'description' => [
+                                'id' => 'Foto ' . $i,
+                                'en' => 'Photo ' . $i,
+                                'ar' => 'صورة ' . $i,
+                                'es' => 'Foto ' . $i,
+                            ],
+                            'path' => $imageName,
+                            'sort' => $i,
+                        ];
+                    }
+                }
+                
+                if (!empty($photosData)) {
+                    $facility->photos()->createMany($photosData);
+                }
             }
         }
     }
